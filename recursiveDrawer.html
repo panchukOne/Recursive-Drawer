@@ -9,42 +9,39 @@
         		var fileLoader = document.getElementById('fileLoader');
 				fileLoader.addEventListener('change', handleFiles);
 			});
-				var ctx, ctx2;
-				function handleFiles(e) {
-				    ctx = document.getElementById("sourceImg").getContext('2d');
-				    ctx2 = document.getElementById("targetImg").getContext('2d');
-				    var sourceImg = new Image;
-					sourceImg.src = URL.createObjectURL(e.target.files[0]);
-					sourceImg.onload = function()
-					{
-					    ctx.drawImage(sourceImg, 0,0,512,512);
-					    //sourceImg.src = document.getElementById("sourceImg").toDataURL("image/png");
-					    draw(0,0,512,512);
-					    //for (var i=0;i<100;i++) ctx2.fillRect(0,0,512,512);
-					}
-				}
-				function draw(x,y,width,height)
+			var ctx, ctx2;
+			function handleFiles(e) {
+			    ctx = document.getElementById("sourceImg").getContext('2d');
+			    ctx2 = document.getElementById("targetImg").getContext('2d');
+			    var sourceImg = new Image;
+				sourceImg.src = URL.createObjectURL(e.target.files[0]);
+				sourceImg.onload = function()
 				{
-					var pix = ctx.getImageData(x,y,width,height).data;
-					var sum = {r:0,g:0,b:0};
-					for (var i = 0, n = pix.length; i < n; i += 4)
-					{
-						sum.r += pix[i];
-						sum.g += pix[i+1];
-						sum.b += pix[i+2];
-					}
-					var averange = {r:Math.floor(sum.r/(pix.length/4)), g:Math.floor(sum.g/(pix.length/4)), b:Math.floor(sum.b/(pix.length/4))};
-					ctx2.fillStyle = "rgb("+averange.r+","+averange.g+","+averange.b+")";
-					ctx2.fillRect(x, y, width, height);
-					if (width > 1 && height > 1)
-					{
-						setTimeout(function(){draw(x,y,Math.floor(width/2),Math.floor(height/2))},10);
-						setTimeout(function(){draw(Math.floor(x+width/2),y,Math.floor(width/2),Math.floor(height/2))},10);
-						setTimeout(function(){draw(x,Math.floor(y+height/2),Math.floor(width/2),Math.floor(height/2))},10);
-						setTimeout(function(){draw(Math.floor(x+width/2),Math.floor(y+height/2),Math.floor(width/2),Math.floor(height/2))},10);
-					}
+				    ctx.drawImage(sourceImg, 0,0,512,512);
+				    draw(0,0,512,512);
 				}
-        	
+			}
+			function draw(x,y,width,height)
+			{
+				var pix = ctx.getImageData(x,y,width,height).data;
+				var sum = {r:0,g:0,b:0};
+				for (var i = 0, n = pix.length; i < n; i += 4)
+				{
+					sum.r += pix[i];
+					sum.g += pix[i+1];
+					sum.b += pix[i+2];
+				}
+				var averange = {r:Math.floor(sum.r/(pix.length/4)), g:Math.floor(sum.g/(pix.length/4)), b:Math.floor(sum.b/(pix.length/4))};
+				ctx2.fillStyle = "rgb("+averange.r+","+averange.g+","+averange.b+")";
+				ctx2.fillRect(x, y, width, height);
+				if (width > 1 && height > 1)
+				{
+					setTimeout(function(){draw(x,y,Math.floor(width/2),Math.floor(height/2))},10);
+					setTimeout(function(){draw(Math.floor(x+width/2),y,Math.floor(width/2),Math.floor(height/2))},10);
+					setTimeout(function(){draw(x,Math.floor(y+height/2),Math.floor(width/2),Math.floor(height/2))},10);
+					setTimeout(function(){draw(Math.floor(x+width/2),Math.floor(y+height/2),Math.floor(width/2),Math.floor(height/2))},10);
+				}
+			}
         </script>
     </head>
     <body>
